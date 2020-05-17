@@ -76,7 +76,7 @@ ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS Users (
   id INT NOT NULL AUTO_INCREMENT,
-  login VARCHAR(45) NOT NULL,
+  login VARCHAR(45) UNIQUE NOT NULL,
   password VARCHAR(45) NOT NULL,
   is_admin TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (id)
@@ -87,7 +87,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS Vehicles (
   id INT NOT NULL AUTO_INCREMENT,
   model_name VARCHAR(40) NOT NULL,
-  license_plate VARCHAR(7) NOT NULL,
+  license_plate VARCHAR(7) UNIQUE NOT NULL,
   user_id INT NULL,
   PRIMARY KEY (id),
   INDEX fk_car_user1_idx (user_id ASC),
