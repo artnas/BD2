@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS ParkingLots (
   id INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(50) NULL,
   capacity INT UNSIGNED NOT NULL,
-  occupied_spots INT UNSIGNED NOT NULL,
+  occupied_spots INT UNSIGNED NOT NULL DEFAULT 0,
   address_id INT NOT NULL,
   zone_id INT NOT NULL,
   PRIMARY KEY (id),
@@ -203,6 +203,18 @@ CREATE TABLE IF NOT EXISTS Payments (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+
+-- triggers
+
+delimiter $$
+create trigger prevent_wrong_capacity_insert before insert on ParkingLots
+for each row
+begin
+	if (new.occupied_spots > new.capacity) then
+		signal sqlstate '45000' set MESSAGE_TEXT = "You can't insert Lot with occupied_spots > capacity";
+    end if;
+end $$
+delimiter ;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
