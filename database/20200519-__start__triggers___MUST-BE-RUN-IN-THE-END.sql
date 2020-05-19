@@ -31,7 +31,7 @@ END
 
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` TRIGGER `validate_update_data` BEFORE UPDATE ON `eparkingtickets` FOR EACH ROW BEGIN
-	if (new.start_date is null) then
+	if (new.start_date is not null) then
 		signal sqlstate '45000' set MESSAGE_TEXT = "Start_date can not be updated.";
 	else if (new.end_date < old.start_date) then
 		signal sqlstate '45000' set MESSAGE_TEXT = "End_date must be later than start_date.";
