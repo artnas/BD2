@@ -421,11 +421,51 @@ begin
 end $$
 delimiter ;
 
+delimiter $$
+create trigger prevent_bill_and_fine_insert before insert on EParkingTickets
+for each row
+begin
+	if (new.bill_id is not null and new.fine_id is not null) then
+		signal sqlstate '45000' set MESSAGE_TEXT = "You can't insert EParkingTicket both with Bill and Fine";
+    end if;
+end $$
+delimiter ;
+
+delimiter $$
+create trigger prevent_bill_and_fine_update before update on EParkingTickets
+for each row
+begin
+	if (new.bill_id is not null and new.fine_id is not null) then
+		signal sqlstate '45000' set MESSAGE_TEXT = "You can't update EParkingTicket both with Bill and Fine";
+    end if;
+end $$
+delimiter ;
+
+delimiter $$
+create trigger prevent_payment_bill_and_fine_insert before insert on Payments
+for each row
+begin
+	if (new.bill_id is not null and new.fine_id is not null) then
+		signal sqlstate '45000' set MESSAGE_TEXT = "You can't insert Payment both with Bill and Fine";
+    end if;
+end $$
+delimiter ;
+
+delimiter $$
+create trigger prevent_payment_bill_and_fine_update before update on Payments
+for each row
+begin
+	if (new.bill_id is not null and new.fine_id is not null) then
+		signal sqlstate '45000' set MESSAGE_TEXT = "You can't update Payment both with Bill and Fine";
+    end if;
+end $$
+delimiter ;
+
 DELIMITER ;;
 CREATE TRIGGER validate_insert_data BEFORE INSERT ON eparkingtickets FOR EACH ROW BEGIN
     if (new.end_date < new.start_date) then
 		signal sqlstate '45000' set MESSAGE_TEXT = "End_date must be later than start_date.";
-	else if (new.end_date is not null and new.status <> 'END' and new.status <> 'PAID') then
+	else if (new.end_date is not null and new.status <> 'ENDED' and new.status <> 'PAID') then
 		signal sqlstate '45000' set MESSAGE_TEXT = "Ticket must be ended because end_date is given.";
 	else if (new.end_date is null and new.status <> 'STARTED') then
 		signal sqlstate '45000' set MESSAGE_TEXT = "Ticket must be only started due to end_date not given.";
@@ -452,8 +492,8 @@ END
 DELIMITER ;;
 CREATE TRIGGER block_invalid_name_capacity_occupied_spots BEFORE INSERT ON parkinglots FOR EACH ROW BEGIN
 	if (new.name = '' OR
-		new.capacity <= 0 OR  
-		(new.occupied_spots <> 0)
+		new.capacity <= 0 
+        -- OR  (new.occupied_spots <> 0)
 	) then
 		signal sqlstate '45000' set MESSAGE_TEXT = "Name must not be empty, capacity must be positive, and occupied spots must be zero.";
     end if;
