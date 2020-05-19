@@ -1,9 +1,0 @@
-
-#### list of tests should be done ###
-
-# guarantee business logics:
-1. ParkingLots - capacity and occupied_spots must be greater than 0 
-2. 			     and occupied_spots <= capacity
-3. EParkingTickets - end_date > start_date
-4.                   either bill_id or fine_id exists for each record
-5. Payments - either bill_id or fine_id exists for each record               
