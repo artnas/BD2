@@ -19,10 +19,8 @@ export class RowAddEditViewComponent implements OnInit {
   public rowDialogData: RowDialogData;
   public formGroup: FormGroup;
 
-  public parkingStatusEnum = [
-    { name: 'A', value: 0 },
-    { name: 'B', value: 1 }
-  ];
+  public parkingStatusEnum = ['STARTED', 'ENDED', 'PAID', 'CANCELLED'];
+  public paymentStatusEnum = ['SUCCESS', 'FAILURE'];
 
   public foreignKeys: { [key: string]: ForeignKey[] } = {};
 

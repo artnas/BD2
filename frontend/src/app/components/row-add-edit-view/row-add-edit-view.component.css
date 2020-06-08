@@ -1,3 +1,5 @@
-mat-form-field {
+.form-field {
+    display: inline-block;
     margin: 15px;
+    width: 180px;
 }

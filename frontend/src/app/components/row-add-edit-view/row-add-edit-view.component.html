@@ -1,37 +1,65 @@
 <h1 mat-dialog-title>{{data.isAddMode ? 'Add row' : 'Edit row'}}</h1>
 <div mat-dialog-content>
-    <mat-form-field *ngFor="let column of rowDialogData.columns">
-        <mat-label>{{column.name}}</mat-label>
-        <span [ngSwitch]="column.type">
-        <p *ngSwitchCase="'number'">
-            <input matInput [formControl]="formGroup.get(column.name)" type="number">
+    <span *ngFor="let column of rowDialogData.columns" [ngSwitch]="column.type">
+        <p class="form-field" *ngSwitchCase="'string'">
+            <mat-form-field>
+                <mat-label>{{column.name}}</mat-label>
+                <input matInput [formControl]="formGroup.get(column.name)">
+            </mat-form-field>
         </p>
-        <p *ngSwitchCase="'date'">
-            <input matInput [formControl]="formGroup.get(column.name)" [matDatepicker]="myDatepicker">
-            <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
-            <mat-datepicker #myDatepicker></mat-datepicker>
+        <p class="form-field" *ngSwitchCase="'number'">
+            <mat-form-field>
+                <mat-label>{{column.name}}</mat-label>
+                <input matInput [formControl]="formGroup.get(column.name)" type="number">
+            </mat-form-field>
         </p>
-        <p *ngSwitchCase="'parking-ticket-status'">
-            <mat-select [formControl]="formGroup.get(column.name)">
-                <mat-option *ngFor="let status of parkingStatusEnum" [value]="status.value">
-                    {{status.name}}
-                </mat-option>
-            </mat-select>
+        <p class="form-field" *ngSwitchCase="'date'">
+            <mat-form-field>
+                <mat-label>{{column.name}}</mat-label>
+                <input matInput [formControl]="formGroup.get(column.name)" [matDatepicker]="myDatepicker">
+                <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+                <mat-datepicker #myDatepicker></mat-datepicker>
+            </mat-form-field>
         </p>
-        <p *ngSwitchCase="'foreign-key'">
-            <mat-select [formControl]="formGroup.get(column.name)">
-                <mat-option *ngFor="let status of foreignKeys[column.foreignTableName]" [value]="status.id">
-                    {{status.name}}
-                </mat-option>
-            </mat-select>
+        <p class="form-field" *ngSwitchCase="'boolean'">
+            <mat-checkbox [formControl]="formGroup.get(column.name)">{{column.name}}</mat-checkbox>
         </p>
-        <p *ngSwitchDefault>
+        <p class="form-field" *ngSwitchCase="'parking-ticket-status'">
+            <mat-form-field>
+                <mat-label>{{column.name}}</mat-label>
+                <mat-select [formControl]="formGroup.get(column.name)">
+                    <mat-option *ngFor="let status of parkingStatusEnum" [value]="status">
+                        {{status}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </p>
+        <p class="form-field" *ngSwitchCase="'payment-status'">
+            <mat-form-field>
+                <mat-label>{{column.name}}</mat-label>
+                <mat-select [formControl]="formGroup.get(column.name)">
+                    <mat-option *ngFor="let status of paymentStatusEnum" [value]="status">
+                        {{status}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </p>
+        <p class="form-field" *ngSwitchCase="'foreign-key'">
+            <mat-form-field>
+                <mat-label>{{column.name}}</mat-label>
+                <mat-select [formControl]="formGroup.get(column.name)">
+                    <mat-option *ngFor="let status of foreignKeys[column.foreignTableName]" [value]="status.id">
+                        {{status.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </p>
+        <p class="form-field" *ngSwitchDefault>
             <input matInput [formControl]="formGroup.get(column.name)" style="visibility: hidden;">
             <span>Column type not supported: {{column.type}}</span>
         </p>
-        </span>
-    </mat-form-field>
+    </span>
 </div>
-<div mat-dialog-actions>
-    <button mat-button (click)="confirm()">Save</button>
+<div mat-dialog-actions style="margin-bottom: 5px;">
+    <button mat-button (click)="confirm()" mat-raised-button color="primary">Save</button>
 </div>

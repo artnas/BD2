@@ -1,3 +1,5 @@
+
+
 <div class="table-toolbar">
     <button mat-mini-fab color="primary" (click)="onAddClicked()">
         <mat-icon>add</mat-icon>
@@ -8,6 +10,7 @@
     <button mat-mini-fab color="warn" [disabled]="getSelectedRowsCount() === 0" (click)="onDeleteClicked()">
         <mat-icon>delete</mat-icon>
     </button>
+    <h1 class="table-title">{{tableName}}</h1>
 </div>
 
 <table *ngIf="columns && dataSource" mat-table [dataSource]="dataSource" class="mat-elevation-z8">

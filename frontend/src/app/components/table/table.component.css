@@ -2,6 +2,13 @@ table {
     width: 100%;
 }
 
+.table-title {
+    display: inline-block;
+    margin: 5px;
+    margin-left: 15px;
+    vertical-align: middle;
+}
+
 .table-toolbar {
     margin-bottom: 15px;
 }
