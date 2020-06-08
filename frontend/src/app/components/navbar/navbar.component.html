@@ -1,14 +1,9 @@
 <mat-toolbar>
     <span>BD2 Project</span>
 
-    <!-- This fills the remaining space of the current row -->
     <span class="fill-remaining-space"></span>
 
-    <button mat-button [matMenuTriggerFor]="statistics">Statistics</button>
-    <mat-menu #statistics="matMenu">
-        <button mat-menu-item>TODO</button>
-    </mat-menu>
-
+    <button mat-button [routerLink]="['statistics']">Statistics</button>
     <button mat-button [matMenuTriggerFor]="tables">Tables</button>
     <mat-menu #tables="matMenu">
         <button *ngFor="let tableName of tableNames" mat-menu-item [routerLink]="[('table/' + tableName)]">{{tableName}}</button>

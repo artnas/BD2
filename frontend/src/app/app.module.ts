@@ -46,13 +46,15 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { RowAddEditViewComponent } from './components/row-add-edit-view/row-add-edit-view.component';
 
 import { ToastrModule } from 'ngx-toastr';
+import { StatisticsComponent } from './components/statistics/statistics.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TableComponent,
     NavbarComponent,
-    RowAddEditViewComponent
+    RowAddEditViewComponent,
+    StatisticsComponent
   ],
   imports: [
     FormsModule,

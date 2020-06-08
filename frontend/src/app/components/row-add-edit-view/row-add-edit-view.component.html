@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>{{data.isAddMode ? 'Add row' : 'Edit row'}}</h1>
 <div mat-dialog-content>
-    <span *ngFor="let column of rowDialogData.columns" [ngSwitch]="column.type">
+    <span *ngFor="let column of rowDialogData.columns; let i = index;" [ngSwitch]="column.type">
         <p class="form-field" *ngSwitchCase="'string'">
             <mat-form-field>
                 <mat-label>{{column.name}}</mat-label>

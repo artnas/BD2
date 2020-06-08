@@ -67,7 +67,7 @@ export class TableComponent implements OnInit {
 
   private getTableDataUrl() {
     if (this.enableMocking) {
-      return `/assets/table-data/${this.tableName}.json`;
+      return `/assets/mocks/table-data/${this.tableName}.json`;
     } else {
       return `/api/table/${this.tableName}`;
     }

@@ -1,0 +1,37 @@
+<h1>Statistics</h1>
+<div class="form-container">
+    <mat-form-field>
+        <mat-label>Select parking lots</mat-label>
+        <mat-select multiple [formControl]="formGroup.get('parkingLots')">
+            <mat-option *ngFor="let entry of parkingLots" [value]="entry.id">
+                {{entry.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Date from</mat-label>
+        <input matInput [formControl]="formGroup.get('dateFrom')" [matDatepicker]="myDatepicker1">
+        <mat-datepicker-toggle matSuffix [for]="myDatepicker1"></mat-datepicker-toggle>
+        <mat-datepicker #myDatepicker1></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Date to</mat-label>
+        <input matInput [formControl]="formGroup.get('dateTo')" [matDatepicker]="myDatepicker2">
+        <mat-datepicker-toggle matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
+        <mat-datepicker #myDatepicker2></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Car license plate</mat-label>
+        <input matInput [formControl]="formGroup.get('licensePlate')">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Payment status</mat-label>
+        <mat-select [formControl]="formGroup.get('paymentStatus')">
+            <mat-option>Any</mat-option>
+            <mat-option *ngFor="let status of paymentStatusEnum" [value]="status">
+                {{status}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+<button mat-button (click)="generateClicked()" mat-raised-button color="primary">Generate</button>
