@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -57,6 +58,7 @@ import { StatisticsComponent } from './components/statistics/statistics.componen
     StatisticsComponent
   ],
   imports: [
+    NgxChartsModule,
     FormsModule,
     ReactiveFormsModule,
     BrowserModule,

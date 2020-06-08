@@ -35,3 +35,9 @@
     </mat-form-field>
 </div>
 <button mat-button (click)="generateClicked()" mat-raised-button color="primary">Generate</button>
+<div *ngIf="chartData !== null">
+    <ngx-charts-bar-vertical [view]="view" [scheme]="colorScheme" [results]="chartData" [gradient]="gradient"
+        [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel">
+    </ngx-charts-bar-vertical>
+</div>
