@@ -1,0 +1,11 @@
+table {
+    width: 100%;
+}
+
+.table-toolbar {
+    margin-bottom: 15px;
+}
+
+.table-toolbar>button {
+    margin: 5px;
+}

@@ -1,0 +1,17 @@
+<mat-toolbar>
+    <span>BD2 Projekt</span>
+
+    <!-- This fills the remaining space of the current row -->
+    <span class="fill-remaining-space"></span>
+
+    <button mat-button [matMenuTriggerFor]="statistics">Statystyki</button>
+    <mat-menu #statistics="matMenu">
+        <button mat-menu-item>TODO</button>
+    </mat-menu>
+
+    <button mat-button [matMenuTriggerFor]="tables">Tabele</button>
+    <mat-menu #tables="matMenu">
+        <button mat-menu-item [routerLink]="['table/Test']">Tabela 1</button>
+        <button mat-menu-item [routerLink]="['table/Test2']">Tabela 2</button>
+    </mat-menu>
+</mat-toolbar>
