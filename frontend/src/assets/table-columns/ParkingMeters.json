@@ -1,0 +1,16 @@
+[
+    {
+        "name": "id",
+        "type": "number",
+        "isPrimaryKey": true
+    },
+    {
+        "name": "nfc_tag_id",
+        "type": "string"
+    },
+    {
+        "name": "parking_lot_id",
+        "type": "foreign-key",
+        "foreignKeyTableName": "ParkingLots"
+    }
+]

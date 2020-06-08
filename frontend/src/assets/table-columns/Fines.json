@@ -1,0 +1,16 @@
+[
+    {
+        "name": "id",
+        "type": "number",
+        "isPrimaryKey": true
+    },
+    {
+        "name": "total_cost",
+        "type": "number"
+    },
+    {
+        "name": "controller_id",
+        "type": "foreign-key",
+        "foreignKeyTableName": "Controllers"
+    }
+]

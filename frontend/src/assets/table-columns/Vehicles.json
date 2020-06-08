@@ -1,0 +1,20 @@
+[
+    {
+        "name": "id",
+        "type": "number",
+        "isPrimaryKey": true
+    },
+    {
+        "name": "model_name",
+        "type": "string"
+    },
+    {
+        "name": "license_plate",
+        "type": "string"
+    },
+    {
+        "name": "user_id",
+        "type": "foreign-key",
+        "foreignKeyTableName": "Users"
+    }
+]

@@ -1,16 +1,16 @@
 <div class="table-toolbar">
-    <button mat-mini-fab color="primary">
+    <button mat-mini-fab color="primary" (click)="onAddClicked()">
         <mat-icon>add</mat-icon>
     </button>
-    <button mat-mini-fab color="primary" [disabled]="getSelectedRowsCount() === 0">
+    <button mat-mini-fab color="primary" [disabled]="getSelectedRowsCount() !== 1" (click)="onEditClicked()">
         <mat-icon>edit</mat-icon>
     </button>
-    <button mat-mini-fab color="warn" [disabled]="getSelectedRowsCount() === 0">
+    <button mat-mini-fab color="warn" [disabled]="getSelectedRowsCount() === 0" (click)="onDeleteClicked()">
         <mat-icon>delete</mat-icon>
     </button>
 </div>
 
-<table *ngIf="model" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<table *ngIf="columns && dataSource" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
     <!-- Checkbox Column -->
     <ng-container matColumnDef="select">
@@ -26,7 +26,7 @@
         </td>
     </ng-container>
 
-    <ng-container *ngFor="let column of model.columns; let i = index" [matColumnDef]="column.name">
+    <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.name">
         <th mat-header-cell *matHeaderCellDef> {{column.name}} </th>
         <td mat-cell *matCellDef="let element"> {{element[i]}} </td>
     </ng-container>

@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
+  public tableNames: string[] = ['Addresses', 'Zones', 'Cameras', 'ParkingLots', 'ParkingMeters', 'Bills', 'Payments', 'Fines', 'EParkingTickets', 'Controllers', 'Users', 'Vehicles'];
+
   constructor() { }
 
   ngOnInit(): void {

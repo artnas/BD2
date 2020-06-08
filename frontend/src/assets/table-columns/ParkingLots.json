@@ -1,0 +1,29 @@
+[
+    {
+        "name": "id",
+        "type": "number",
+        "isPrimaryKey": true
+    },
+    {
+        "name": "name",
+        "type": "string"
+    },
+    {
+        "name": "capacity",
+        "type": "number"
+    },
+    {
+        "name": "occupied_spots",
+        "type": "string"
+    },
+    {
+        "name": "address_id",
+        "type": "foreign-key",
+        "foreignKeyTableName": "Addresses"
+    },
+    {
+        "name": "zone_id",
+        "type": "foreign-key",
+        "foreignKeyTableName": "Zones"
+    }
+]

@@ -1,0 +1,27 @@
+[
+    {
+        "name": "id",
+        "type": "number",
+        "isPrimaryKey": true
+    },
+    {
+        "name": "street",
+        "type": "string"
+    },
+    {
+        "name": "street_number",
+        "type": "string"
+    },
+    {
+        "name": "locality",
+        "type": "string"
+    },
+    {
+        "name": "postal_code",
+        "type": "string"
+    },
+    {
+        "name": "country",
+        "type": "string"
+    }
+]

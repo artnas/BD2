@@ -1,0 +1,15 @@
+[
+    {
+        "name": "id",
+        "type": "number",
+        "isPrimaryKey": true
+    },
+    {
+        "name": "name",
+        "type": "string"
+    },
+    {
+        "name": "surname",
+        "type": "string"
+    }
+]

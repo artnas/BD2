@@ -1,0 +1,37 @@
+<h1 mat-dialog-title>{{data.isAddMode ? 'Add row' : 'Edit row'}}</h1>
+<div mat-dialog-content>
+    <mat-form-field *ngFor="let column of rowDialogData.columns">
+        <mat-label>{{column.name}}</mat-label>
+        <span [ngSwitch]="column.type">
+        <p *ngSwitchCase="'number'">
+            <input matInput [formControl]="formGroup.get(column.name)" type="number">
+        </p>
+        <p *ngSwitchCase="'date'">
+            <input matInput [formControl]="formGroup.get(column.name)" [matDatepicker]="myDatepicker">
+            <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+            <mat-datepicker #myDatepicker></mat-datepicker>
+        </p>
+        <p *ngSwitchCase="'parking-ticket-status'">
+            <mat-select [formControl]="formGroup.get(column.name)">
+                <mat-option *ngFor="let status of parkingStatusEnum" [value]="status.value">
+                    {{status.name}}
+                </mat-option>
+            </mat-select>
+        </p>
+        <p *ngSwitchCase="'foreign-key'">
+            <mat-select [formControl]="formGroup.get(column.name)">
+                <mat-option *ngFor="let status of foreignKeys[column.foreignTableName]" [value]="status.id">
+                    {{status.name}}
+                </mat-option>
+            </mat-select>
+        </p>
+        <p *ngSwitchDefault>
+            <input matInput [formControl]="formGroup.get(column.name)" style="visibility: hidden;">
+            <span>Column type not supported: {{column.type}}</span>
+        </p>
+        </span>
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="confirm()">Save</button>
+</div>

@@ -1,0 +1,39 @@
+[
+    {
+        "name": "id",
+        "type": "number",
+        "isPrimaryKey": true
+    },
+    {
+        "name": "start_date",
+        "type": "date"
+    },
+    {
+        "name": "end_date",
+        "type": "date"
+    },
+    {
+        "name": "status",
+        "type": "parking-ticket-status"
+    },
+    {
+        "name": "vehicle_id",
+        "type": "foreign-key",
+        "foreignKeyTableName": "Vehicles"
+    },
+    {
+        "name": "parking_lot_id",
+        "type": "foreign-key",
+        "foreignKeyTableName": "ParkingLots"
+    },
+    {
+        "name": "bill_id",
+        "type": "foreign-key",
+        "foreignKeyTableName": "Bills"
+    },
+    {
+        "name": "fine_id",
+        "type": "foreign-key",
+        "foreignKeyTableName": "Fines"
+    }
+]

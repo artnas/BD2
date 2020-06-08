@@ -1,0 +1,19 @@
+[
+    {
+        "name": "id",
+        "type": "number",
+        "isPrimaryKey": true
+    },
+    {
+        "name": "login",
+        "type": "string"
+    },
+    {
+        "name": "password",
+        "type": "string"
+    },
+    {
+        "name": "is_admin",
+        "type": "boolean"
+    }
+]

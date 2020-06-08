@@ -1,0 +1,16 @@
+[
+    {
+        "name": "id",
+        "type": "number",
+        "isPrimaryKey": true
+    },
+    {
+        "name": "is_active",
+        "type": "boolean"
+    },
+    {
+        "name": "parking_lot_id",
+        "type": "foreign-key",
+        "foreignKeyTableName": "ParkingLots"
+    }
+]

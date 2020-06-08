@@ -1,0 +1,11 @@
+[
+    {
+        "name": "id",
+        "type": "number",
+        "isPrimaryKey": true
+    },
+    {
+        "name": "total_cost",
+        "type": "number"
+    }
+]
