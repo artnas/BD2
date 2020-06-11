@@ -56,10 +56,14 @@ export class StatisticsComponent implements OnInit {
   }
 
   generateClicked() {
+    const formData = this.formGroup.getRawValue();
+    formData.dateFrom = formData.dateFrom ? formData.dateFrom.getTime() : null;
+    formData.dateTo = formData.dateTo ? formData.dateTo.getTime() : null;
+      
     if (document.location.port === '4200') { // mock
       this.chartData = [{ name: 'a', value: 8940000 }, { name: 'b', value: 8940000 }, { name: 'c', value: 7200000 }];
     } else {
-      this.httpClient.post('api/statistics', this.formGroup.getRawValue()).subscribe((chartData) => {
+      this.httpClient.post('api/statistics', formData).subscribe((chartData) => {
         this.chartData = chartData;
       }, (error) => {
         this.toastr.show(error.message);

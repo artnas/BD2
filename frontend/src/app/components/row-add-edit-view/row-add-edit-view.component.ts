@@ -76,8 +76,21 @@ export class RowAddEditViewComponent implements OnInit {
     }
   }
 
+  private getProcessedFormData() {
+    const formData = this.formGroup.getRawValue();
+
+    for (const column of this.rowDialogData.columns) {
+      // convert date to timestamp
+      if (column.type === 'date' && formData[column.name] !== null) {
+        formData[column.name] = formData[column.name].getTime();
+      }
+    }
+
+    return formData;
+  }
+
   private addNewRow() {
-    this.httpClient.post(`api/table/${this.rowDialogData.tableName}`, this.formGroup.getRawValue()).subscribe(() => {
+    this.httpClient.post(`api/table/${this.rowDialogData.tableName}`, this.getProcessedFormData()).subscribe(() => {
       this.dialogRef.close(true);
     }, (error) => {
       this.toastr.show(error.message);
@@ -85,7 +98,7 @@ export class RowAddEditViewComponent implements OnInit {
   }
 
   private saveRow() {
-    this.httpClient.put(`api/table/${this.rowDialogData.tableName}`, this.formGroup.getRawValue()).subscribe(() => {
+    this.httpClient.put(`api/table/${this.rowDialogData.tableName}`, this.getProcessedFormData()).subscribe(() => {
       this.dialogRef.close(true);
     }, (error) => {
       this.toastr.show(error.message);
