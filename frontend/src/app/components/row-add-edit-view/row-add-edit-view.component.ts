@@ -14,7 +14,7 @@ import { of } from 'rxjs';
 })
 export class RowAddEditViewComponent implements OnInit {
 
-  private enableMocking = true;
+  private enableMocking = false;
 
   public rowDialogData: RowDialogData;
   public formGroup: FormGroup;
@@ -46,7 +46,7 @@ export class RowAddEditViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.enableMocking = document.location.port === '4200';
+    // this.enableMocking = document.location.port === '4200';
   }
 
   private createFormGroup() {

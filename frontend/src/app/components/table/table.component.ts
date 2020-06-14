@@ -16,7 +16,7 @@ import { Column } from 'src/models/column';
 })
 export class TableComponent implements OnInit {
 
-  private enableMocking = true;
+  private enableMocking = false;
 
   constructor(private httpClient: HttpClient, public dialog: MatDialog, private route: ActivatedRoute, private toastr: ToastrService) { 
   }
@@ -32,7 +32,7 @@ export class TableComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   ngOnInit(): void {
-    this.enableMocking = document.location.port === '4200';
+    // this.enableMocking = document.location.port === '4200';
     this.route.params.subscribe((params) => {
       this.tableName = params.name;
       this.getTableData();
