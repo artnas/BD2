@@ -19,10 +19,6 @@ export class TableComponent implements OnInit {
   private enableMocking = true;
 
   constructor(private httpClient: HttpClient, public dialog: MatDialog, private route: ActivatedRoute, private toastr: ToastrService) { 
-    route.params.subscribe((params) => {
-      this.tableName = params.name;
-      this.getTableData();
-    });
   }
 
   public tableName: string;
@@ -37,6 +33,10 @@ export class TableComponent implements OnInit {
 
   ngOnInit(): void {
     this.enableMocking = document.location.port === '4200';
+    this.route.params.subscribe((params) => {
+      this.tableName = params.name;
+      this.getTableData();
+    });
   }
 
   private getTableData() {
