@@ -5,12 +5,15 @@ from flask.json import jsonify
 import simplejson as json
 from datetime import datetime
 import mysql.connector
+import mimetypes
+mimetypes.add_type('text/javascript', '.js')
 
 cnx = mysql.connector.connect(
     user='root',
     host = '127.0.0.1', 
     port=3306, 
-    database='mydb'
+    database='mydb',
+    password='superturboultradlugiehaslo1234'
 )
 
 cursor = cnx.cursor()
