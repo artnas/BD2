@@ -69,9 +69,9 @@ def add_new_row(table, request):
         cnx.commit()
     except mysql.connector.Error as error:
         cnx.rollback()
-        return jsonify({'error': 'There has been an error and row data hasn\'t been insterted'})
+        return json.dumps({'error': 'There has been an error and row data hasn\'t been insterted'})
     finally: 
-        return jsonify({'message': 'Table updated correctly'})
+        return json.dumps({'message': 'Table updated correctly'})
 
 def update_row_values(table, request):
     body_json = request.get_json()
@@ -88,7 +88,7 @@ def update_row_values(table, request):
                     parameters_update_set += f"{key} = '{body_json[key]}', "
 
     if not id:
-        return jsonify({'error': 'row cannot be updated, id has not been provided'})
+        return json.dumps({'error': 'row cannot be updated, id has not been provided'})
 
     parameters_update_set = parameters_update_set[:-2]
     update_statement = (f"UPDATE {table} "
@@ -100,9 +100,9 @@ def update_row_values(table, request):
         cnx.commit()
     except mysql.connector.Error as error:
         cnx.rollback()
-        return jsonify({'error': 'There has been an error and data hasn\'t been updated'})
+        return json.dumps({'error': 'There has been an error and data hasn\'t been updated'})
     finally: 
-        return jsonify({'message': 'Table updated correctly'})
+        return json.dumps({'message': 'Table updated correctly'})
 
 def delete_rows(table, request):
     body_json = request.get_json()
@@ -114,9 +114,9 @@ def delete_rows(table, request):
             cnx.commit()
     except mysql.connector.Error as error:
         cnx.rollback()
-        return jsonify({'error': 'There has been an error and data hasn\'t been deleted'})
+        return json.dumps({'error': 'There has been an error and data hasn\'t been deleted'})
     finally: 
-        return jsonify({'message': 'Rows deleted correctly'})
+        return json.dumps({'message': 'Rows deleted correctly'})
     
 
 @app.route('/api/table/<string:table>', methods=['GET', 'POST', 'PUT', 'DELETE'])
@@ -168,7 +168,7 @@ def get_vehicle_statistics(request):
     cursor.execute(query)
     query_result = list(cursor)[0]
     print(query_result)
-    return jsonify({"name": query_result[0], "value": query_result[1]})
+    return json.dumps({"name": query_result[0], "value": query_result[1]})
 
 @app.route('/api/statistics', methods=['POST'])
 def get_filtered_data():
@@ -218,7 +218,7 @@ def get_filtered_data():
             query_result = list(cursor)[0]
             print(query_result)
             statistics.append({"name": query_result[0], "value": query_result[1]})    
-        return jsonify(statistics)
+        return json.dumps(statistics)
 
 def select_column(table):
     table = table.lower()
@@ -259,4 +259,5 @@ def get_foreign_keys():
             to_extract = list(item)
             rows.append({'id': to_extract[0], select_column(table): to_extract[1]})
         result_dict[table] = rows
-    return jsonify(json.dumps(result_dict))
+
+    return json.dumps(result_dict)
