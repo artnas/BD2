@@ -132,8 +132,8 @@ def table_request(table):
 
 def get_vehicle_statistics(request):
     body_json = request.get_json()
-    date_from = body_json['dateFrom']
-    date_to = body_json['dateTo']
+    date_from = (int)(body_json['dateFrom']/1000)
+    date_to = (int)(body_json['dateTo']/1000)
     license_plate = body_json['licensePlate']
     payment_status = body_json['paymentStatus']
     query_base = (f"SELECT vehicles.license_plate, count(eparkingtickets.id) "
@@ -143,6 +143,7 @@ def get_vehicle_statistics(request):
     conditions = list()
     if not (date_from is None or date_to is None):
         print(f"datefrom: {type(date_from)} dateto: {type(date_to)}")
+        print(date_from, date_to)
         datetime_from = datetime.fromtimestamp(date_from)
         datetime_to = datetime.fromtimestamp(date_to)
         conditions.append(f"((eparkingtickets.start_date BETWEEN '{datetime_from}' AND '{datetime_to}') "
@@ -174,8 +175,8 @@ def get_vehicle_statistics(request):
 def get_filtered_data():
     body_json = request.get_json()
     parking_lots = body_json['parkingLots']
-    date_from = body_json['dateFrom']
-    date_to = body_json['dateTo']
+    date_from = (int)(body_json['dateFrom']/1000)
+    date_to = (int)(body_json['dateTo']/1000)
     license_plate = body_json['licensePlate']
     payment_status = body_json['paymentStatus']
     query_base = (f"SELECT parkinglots.name, count(eparkingtickets.id) "
@@ -212,7 +213,7 @@ def get_filtered_data():
                 else:
                     condition_statement += "AND "
             
-            query = f"{query_base}\n{condition_statement}"
+            query = f"{query_base} {condition_statement}"
             print(query)
             cursor.execute(query)
             query_result = list(cursor)[0]
