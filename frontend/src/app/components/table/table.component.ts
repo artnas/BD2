@@ -51,6 +51,7 @@ export class TableComponent implements OnInit {
 
       // get data
       this.httpClient.get(tableDataUrl).subscribe((data: any[][]) => {
+        this.selection.clear();
         this.processTableData(data);
       }, (error) => {
         this.toastr.show(error.message);
@@ -61,6 +62,17 @@ export class TableComponent implements OnInit {
   }
 
   private processTableData(data: any[][]) {
+    for (const row of data){
+      for (let i = 0; i < this.columns.length; i++){
+        if (this.columns[i].type === 'date') {
+          // row[i] = new Date(row[i]).toLocaleString();
+          const date = new Date(row[i]);
+          date.setUTCHours(date.getHours());
+          row[i] = date.toISOString().slice(0, 16);
+        }
+      }
+    }
+
     this.dataSource = new MatTableDataSource<any>(data);
     this.dataSource.paginator = this.paginator;
   }

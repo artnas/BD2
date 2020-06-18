@@ -7,18 +7,21 @@
                 <input matInput [formControl]="formGroup.get(column.name)">
             </mat-form-field>
         </p>
-        <p class="form-field" *ngSwitchCase="'number'">
-            <mat-form-field>
-                <mat-label>{{column.name}}</mat-label>
-                <input matInput [formControl]="formGroup.get(column.name)" type="number">
-            </mat-form-field>
-        </p>
+        <span *ngSwitchCase="'number'">
+            <p class="form-field" *ngIf="!column.isPrimaryKey">
+                <mat-form-field>
+                    <mat-label>{{column.name}}</mat-label>
+                    <input matInput [formControl]="formGroup.get(column.name)" type="number">
+                </mat-form-field>
+            </p>
+        </span>
         <p class="form-field" *ngSwitchCase="'date'">
             <mat-form-field>
                 <mat-label>{{column.name}}</mat-label>
-                <input matInput [formControl]="formGroup.get(column.name)" [matDatepicker]="myDatepicker">
-                <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
-                <mat-datepicker #myDatepicker></mat-datepicker>
+                <input matInput [formControl]="formGroup.get(column.name)" type="datetime-local">
+                <!-- <input matInput [formControl]="formGroup.get(column.name)" [matDatepicker]="myDatepicker"> -->
+                <!-- <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+                <mat-datepicker #myDatepicker></mat-datepicker> -->
             </mat-form-field>
         </p>
         <p class="form-field" *ngSwitchCase="'boolean'">

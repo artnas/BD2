@@ -56,9 +56,8 @@ export class RowAddEditViewComponent implements OnInit {
       const column = this.rowDialogData.columns[i];
       let value = this.rowDialogData.data[i];
 
-      // process data
-      if (column.type === 'date') {
-        value = new Date(this.rowDialogData.data[i]);
+      if (column.type === 'date' && value !== null) {
+        value = this.getDateStringForInput(value);
       }
 
       const formControl = new FormControl(value);
@@ -66,6 +65,12 @@ export class RowAddEditViewComponent implements OnInit {
     }
 
     this.formGroup = new FormGroup(controls);
+  }
+
+  private getDateStringForInput(value): string {
+    const date = new Date(value);
+    date.setUTCHours(date.getHours());
+    return date.toISOString().slice(0, 16);;
   }
 
   confirm() {
@@ -82,7 +87,8 @@ export class RowAddEditViewComponent implements OnInit {
     for (const column of this.rowDialogData.columns) {
       // convert date to timestamp
       if (column.type === 'date' && formData[column.name] !== null) {
-        formData[column.name] = formData[column.name].getTime();
+        console.log(formData[column.name]);
+        formData[column.name] = new Date(formData[column.name]).getTime();
       }
     }
 
