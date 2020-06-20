@@ -10,6 +10,7 @@ mimetypes.add_type('text/javascript', '.js')
 
 cnx = mysql.connector.connect(
     user='root',
+    password='123456aA@',
     host = '127.0.0.1', 
     port=3306, 
     database='mydb'
@@ -29,6 +30,8 @@ def send_js(path):
 
 def get_table(table):
     query = (f"SELECT * from {table}")
+    # buffered cursor
+    cursor = cnx.cursor(buffered=True)
     cursor.execute(query)
     query_result = list()
     for row in cursor:
@@ -64,6 +67,8 @@ def add_new_row(table, request):
                         f"({keys}) "
                         f"VALUES ({values});")
     print(insert_statement)
+    # buffered cursor
+    cursor = cnx.cursor(buffered=True)
     cursor.execute(insert_statement)
     try: 
         cnx.commit()
@@ -95,6 +100,8 @@ def update_row_values(table, request):
                         f"SET {parameters_update_set} "
                         f"WHERE id = {id};")
     print(update_statement)
+    # buffered cursor
+    cursor = cnx.cursor(buffered=True)
     cursor.execute(update_statement)
     try: 
         cnx.commit()
@@ -110,6 +117,8 @@ def delete_rows(table, request):
         for id in body_json:
             delete_statement = f"DELETE FROM `{table}` WHERE id = {id};"
             print(delete_statement)
+            # buffered cursor
+            cursor = cnx.cursor(buffered=True)
             cursor.execute(delete_statement)
             cnx.commit()
     except mysql.connector.Error as error:
@@ -131,11 +140,21 @@ def table_request(table):
         return delete_rows(table, request)
 
 def get_vehicle_statistics(request):
-    body_json = request.get_json()
-    date_from = (int)(body_json['dateFrom']/1000)
-    date_to = (int)(body_json['dateTo']/1000)
-    license_plate = body_json['licensePlate']
-    payment_status = body_json['paymentStatus']
+    body_json = request.get_json()    
+    date_from = None
+    date_to = None
+    license_plate = None
+    payment_status = None
+    
+    if "dateFrom" in body_json:
+        date_from = (int)(body_json['dateFrom']/1000)
+    if "dateTo" in body_json:
+        date_to = (int)(body_json['dateTo']/1000)
+    if "licensePlate" in body_json:
+        license_plate = body_json['licensePlate']
+    if "paymentStatus" in body_json:
+        payment_status = body_json['paymentStatus']
+
     query_base = (f"SELECT vehicles.license_plate, count(eparkingtickets.id) "
                 f"FROM eparkingtickets "
                 f"INNER JOIN vehicles ON vehicles.id=eparkingtickets.vehicle_id "
@@ -160,25 +179,45 @@ def get_vehicle_statistics(request):
     for condition in conditions:
         condition_statement += condition
         if condition == conditions[-1]:
-            condition_statement += ";"
+            condition_statement += " group by vehicles.license_plate;"
         else:
             condition_statement += "AND "
     
     query = f"{query_base}\n{condition_statement}"
     print(query)
+    # buffered cursor
+    cursor = cnx.cursor(buffered=True)    
     cursor.execute(query)
-    query_result = list(cursor)[0]
-    print(query_result)
-    return json.dumps({"name": query_result[0], "value": query_result[1]})
+    statistics = list()
+    if (cursor.rowcount > 0):
+        query_result = list(cursor)[0]
+        print(query_result)
+        if (query_result[0] is not None and query_result[1] > 0):
+            statistics.append({"name": query_result[0], "value": query_result[1]})
+
+    return json.dumps(statistics)
 
 @app.route('/api/statistics', methods=['POST'])
 def get_filtered_data():
     body_json = request.get_json()
-    parking_lots = body_json['parkingLots']
-    date_from = (int)(body_json['dateFrom']/1000)
-    date_to = (int)(body_json['dateTo']/1000)
-    license_plate = body_json['licensePlate']
-    payment_status = body_json['paymentStatus']
+    parking_lots = None
+    date_from = None
+    date_to = None
+    license_plate = None
+    payment_status = None
+
+    if "parkingLots" in body_json:
+        parking_lots = body_json['parkingLots']
+    if "dateFrom" in body_json:
+        date_from = (int)(body_json['dateFrom']/1000)
+    if "dateTo" in body_json:
+        date_to = (int)(body_json['dateTo']/1000)
+    if "licensePlate" in body_json:
+        if (body_json['licensePlate'] != ''):
+            license_plate = body_json['licensePlate']
+    if "paymentStatus" in body_json:
+        payment_status = body_json['paymentStatus']
+
     query_base = (f"SELECT parkinglots.name, count(eparkingtickets.id) "
                 f"FROM eparkingtickets "
                 f"INNER JOIN parkinglots ON parkinglots.id=eparkingtickets.parking_lot_id "
@@ -215,10 +254,14 @@ def get_filtered_data():
             
             query = f"{query_base} {condition_statement}"
             print(query)
+            # buffered cursor
+            cursor = cnx.cursor(buffered=True)    
             cursor.execute(query)
             query_result = list(cursor)[0]
             print(query_result)
-            statistics.append({"name": query_result[0], "value": query_result[1]})    
+            if (query_result[0] is not None and query_result[1] > 0):
+                statistics.append({"name": query_result[0], "value": query_result[1]})
+
         return json.dumps(statistics)
 
 def select_column(table):
@@ -254,6 +297,8 @@ def get_foreign_keys():
     result_dict = dict()
     for table in body_json:
         query = (f"SELECT id, {select_column(table)} from {table}")
+        # buffered cursor
+        cursor = cnx.cursor(buffered=True)
         cursor.execute(query)
         rows = list()
         for item in cursor:
