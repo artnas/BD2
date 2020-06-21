@@ -10,7 +10,7 @@ mimetypes.add_type('text/javascript', '.js')
 
 cnx = mysql.connector.connect(
     user='root',
-    password='123456aA@',
+    #password='123456aA@',
     host = '127.0.0.1', 
     port=3306, 
     database='mydb'
@@ -39,7 +39,7 @@ def get_table(table):
             row_list = list(row)
             for it in range(0, len(row)):
                 if isinstance(row[it], datetime):
-                    row_list[it] = int(row[it].timestamp())
+                    row_list[it] = int(row[it].timestamp() * 1000)
             row = tuple(row_list)
         query_result.append(row)
     return json.dumps(query_result)
@@ -88,7 +88,9 @@ def update_row_values(table, request):
         else:
             if body_json[key] != None:
                 if "date" in key:
-                    parameters_update_set += f"{key} = '{datetime.fromtimestamp(body_json[key])}', "
+                    if not table.lower() in ["eparkingtickets"]:
+                        print("key: " + str(body_json[key]))
+                        parameters_update_set += f"{key} = '{datetime.fromtimestamp(body_json[key] / 1000)}', "
                 else:
                     parameters_update_set += f"{key} = '{body_json[key]}', "
 
